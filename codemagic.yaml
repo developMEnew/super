@@ -18,6 +18,9 @@ workflows:
           apt-get install -y nodejs
           npm install -g nativescript@${NS_VERSION}  # Install NativeScript CLI at the specified version
           npm install  # Install the project-specific dependencies
+          
+          # Install only Android component of NativeScript
+          ns component add @nativescript/android  # Install Android component
       - name: Build Android App
         script: |
           # Install required Android tools if not already installed
