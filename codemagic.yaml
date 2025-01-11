@@ -1,39 +1,34 @@
 workflows:
-  native:
-    name: Build NativeScript App
+  android:
+    name: Build NativeScript Android App
     max_build_duration: 60 # Max build time in minutes
     environment:
       vars:
         - key: "NODE_VERSION"
-          value: "14"
+          value: "16.x"  # Use a stable version of Node.js
         - key: "NPM_VERSION"
-          value: "7.24.0"
+          value: "8.19.2" # NPM 8.x is compatible with Node.js 16.x
+        - key: "NS_VERSION"
+          value: "8.4.0"  # A stable version of NativeScript CLI
     scripts:
       - name: Install Dependencies
         script: |
           # Install Node.js and NPM dependencies
-          curl -sL https://deb.nodesource.com/setup_14.x | bash -
+          curl -fsSL https://deb.nodesource.com/setup_16.x | bash -  # Updated Node.js version
           apt-get install -y nodejs
-          npm install -g nativescript
-          npm install
-      - name: Build iOS App
-        script: |
-          # Build the iOS app
-          ns build ios --release --for-device
+          npm install -g nativescript@${NS_VERSION}  # Install NativeScript CLI at the specified version
+          npm install  # Install the project-specific dependencies
       - name: Build Android App
         script: |
-          # Build the Android app
+          # Install required Android tools if not already installed
+          ns doctor --android
+          # Build the Android app in release mode
           ns build android --release
     artifacts:
-      - build/ios/**/*.ipa
-      - build/android/**/*.apk
+      - build/android/**/*.apk  # Collect the Android APK file
     publishing:
       scripts:
-        - name: Publish to TestFlight (for iOS)
-          script: |
-            # Publish the iOS build to TestFlight (use fastlane)
-            fastlane ios beta
         - name: Publish to Google Play (for Android)
           script: |
-            # Publish the Android build to Google Play (use fastlane)
+            # Publish the Android build to Google Play using Fastlane
             fastlane android beta
