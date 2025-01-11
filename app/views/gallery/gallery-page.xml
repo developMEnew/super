@@ -1,0 +1,27 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo" class="page">
+    <ActionBar title="Gallery" class="action-bar" />
+    
+    <GridLayout rows="auto, *">
+        <!-- Collections ListView -->
+        <ListView row="0" items="{{ collections }}" itemTap="{{ onCollectionTap }}" class="list-group">
+            <ListView.itemTemplate>
+                <Label text="{{ $value }}" class="list-group-item" />
+            </ListView.itemTemplate>
+        </ListView>
+
+        <!-- Images GridLayout -->
+        <GridLayout row="1" id="imagesContainer" columns="*, *" rows="auto" visibility="{{ showImages ? 'visible' : 'collapsed' }}">
+            <Repeater items="{{ images }}" colSpan="2">
+                <Repeater.itemTemplate>
+                    <GridLayout class="image-container m-1" rows="*, auto">
+                        <Image src="{{ path }}" stretch="aspectFill" class="rounded-lg" loaded="{{ onImageLoaded }}" />
+                        <StackLayout row="0" verticalAlignment="bottom" class="p-2 bg-black opacity-75">
+                            <Label text="{{ name }}" class="text-white font-bold" />
+                            <Label text="{{ '$' + price }}" class="text-white" />
+                        </StackLayout>
+                    </GridLayout>
+                </Repeater.itemTemplate>
+            </Repeater>
+        </GridLayout>
+    </GridLayout>
+</Page>

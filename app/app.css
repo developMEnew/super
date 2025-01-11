@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.image-container {
+    height: 200;
+}
+
+.list-group {
+    height: 60;
+}
+
+.list-group-item {
+    padding: 12;
+    font-size: 16;
+    background-color: white;
+    border-bottom-width: 1;
+    border-bottom-color: #e5e5e5;
+}
+
+.fade-in {
+    animation-name: fadeIn;
+    animation-duration: 0.3;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
